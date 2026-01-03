@@ -65,7 +65,19 @@ const i18n = {
       'message.cannot_copy': 'Không thể sao chép. Vui lòng sao chép thủ công: {text}',
       'message.redeem_failed': 'Đổi quà thất bại',
       'message.redeem_error': 'Lỗi khi đổi quà. Vui lòng thử lại!',
-      'message.payment_under_development': 'Chức năng đang được phát triển, vui lòng chọn phương thức khác'
+      'message.payment_under_development': 'Chức năng đang được phát triển, vui lòng chọn phương thức khác',
+      
+      // UI Text - Index Page
+      'ui.title.member_lookup': 'TRA CỨU THÀNH VIÊN',
+      'ui.button.card_id': 'Mã thẻ',
+      'ui.button.account': 'Tài khoản',
+      'ui.text.enter_card_info': 'Nhập mã thẻ của bạn để xem thông tin',
+      'ui.placeholder.card_code': 'Nhập mã thẻ...',
+      'ui.button.login': 'Đăng nhập',
+      'ui.text.enter_username_password': 'Nhập tên đăng nhập và mật khẩu',
+      'ui.placeholder.username': 'Tên đăng nhập (số điện thoại)...',
+      'ui.placeholder.password': 'Mật khẩu...',
+      'ui.link.forgot_password': 'Quên mật khẩu?'
     },
     
     en: {
@@ -128,7 +140,19 @@ const i18n = {
       'message.cannot_copy': 'Cannot copy. Please copy manually: {text}',
       'message.redeem_failed': 'Redeem reward failed',
       'message.redeem_error': 'Error redeeming reward. Please try again!',
-      'message.payment_under_development': 'This feature is under development, please choose another payment method'
+      'message.payment_under_development': 'This feature is under development, please choose another payment method',
+      
+      // UI Text - Index Page
+      'ui.title.member_lookup': 'MEMBER LOOKUP',
+      'ui.button.card_id': 'Card ID',
+      'ui.button.account': 'Account',
+      'ui.text.enter_card_info': 'Enter your card ID to view information',
+      'ui.placeholder.card_code': 'Enter card ID...',
+      'ui.button.login': 'Login',
+      'ui.text.enter_username_password': 'Enter username and password',
+      'ui.placeholder.username': 'Username (phone number)...',
+      'ui.placeholder.password': 'Password...',
+      'ui.link.forgot_password': 'Forgot password?'
     }
   },
   
@@ -162,6 +186,35 @@ const i18n = {
   // Lấy ngôn ngữ hiện tại
   getLanguage() {
     return this.currentLang;
+  },
+  
+  // Translate tất cả các element có data-i18n attribute
+  translatePage() {
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      const translation = this.t(key);
+      
+      // Xử lý placeholder cho input
+      if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+        element.placeholder = translation;
+      } 
+      // Xử lý title cho các thẻ
+      else if (element.hasAttribute('title')) {
+        element.title = translation;
+      }
+      // Xử lý value cho button/input type button
+      else if (element.tagName === 'BUTTON' || (element.tagName === 'INPUT' && element.type === 'button')) {
+        element.textContent = translation;
+      }
+      // Xử lý text content cho các thẻ khác
+      else {
+        element.textContent = translation;
+      }
+    });
+    
+    // Cập nhật lang attribute của html tag
+    document.documentElement.lang = this.currentLang;
   }
 };
 
