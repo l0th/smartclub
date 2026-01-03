@@ -6,10 +6,8 @@
 .env.*.local
 heroku-env.txt
 
-# Node modules
+# Node modules - ignore all node_modules directories
 node_modules/
-backend/node_modules/
-smartclub-socket/node_modules/
 **/node_modules/
 
 # Logs
