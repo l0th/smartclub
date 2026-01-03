@@ -115,8 +115,8 @@ io.on('connection', (socket) => {
   });
 });
 
-httpServer.listen(PORT, async () => {
-  console.log(`✅ REST API server running on http://localhost:${PORT}`);
+httpServer.listen(PORT, '0.0.0.0', async () => {
+  console.log(`✅ REST API server running on port ${PORT}`);
   console.log(`✅ Socket.IO server integrated on same port`);
   
   if (ENABLE_TUNNEL && !process.env.VNPAY_RETURN_URL) {
@@ -133,16 +133,9 @@ httpServer.listen(PORT, async () => {
       console.log(`   Server is ready to accept VNPay payments`);
     } catch (error) {
       console.error('❌ Failed to start tunnel:', error.message);
-      console.warn('⚠️  VNPay will not work without tunnel or VNPAY_RETURN_URL');
-      console.warn('   Options:');
-      console.warn('   1. Set VNPAY_RETURN_URL environment variable');
-      console.warn('   2. Check network/firewall settings');
-      console.warn('   3. Ensure localtunnel service is accessible');
     }
   } else if (process.env.VNPAY_RETURN_URL) {
     console.log(`✅ Using VNPay URL from environment: ${process.env.VNPAY_RETURN_URL}`);
-  } else {
-    console.warn('⚠️  VNPay tunnel disabled. Set ENABLE_TUNNEL=true or VNPAY_RETURN_URL to enable.');
   }
 });
 
