@@ -101,7 +101,7 @@ npm install
 DB_HOST=103.97.126.78
 DB_PORT=3306
 DB_USER=eproject_2
-DB_PASSWORD=cyp1zsduoqiomlm9ldz9
+DB_PASSWORD=your_database_password
 DB_NAME=eproject_2
 ```
 
@@ -125,14 +125,14 @@ VNPAY_RETURN_URL=
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=ducnha1554@gmail.com
-SMTP_PASS=ipgm zrua kctv gfea
+SMTP_PASS=your_smtp_app_password
 ```
 
 **SMS (Twilio):**
 ```
-TWILIO_ACCOUNT_SID=ACb039ee1db67a3df5e8affb406f754e74
-TWILIO_AUTH_TOKEN=12867aa016ca57a83ca8bd2191b5839e
-TWILIO_PHONE_NUMBER=+18165726509
+TWILIO_ACCOUNT_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+TWILIO_PHONE_NUMBER=+1234567890
 ```
 
 **Server:**

@@ -118,7 +118,7 @@ Set tất cả environment variables trên Heroku. **QUAN TRỌNG:** Thay các g
 heroku config:set DB_HOST=103.97.126.78
 heroku config:set DB_PORT=3306
 heroku config:set DB_USER=eproject_2
-heroku config:set DB_PASSWORD=cyp1zsduoqiomlm9ldz9
+heroku config:set DB_PASSWORD=your_database_password
 heroku config:set DB_NAME=eproject_2
 
 # JWT
@@ -136,12 +136,12 @@ heroku config:set VNPAY_RETURN_URL=https://smartclub-app.herokuapp.com
 heroku config:set SMTP_HOST=smtp.gmail.com
 heroku config:set SMTP_PORT=587
 heroku config:set SMTP_USER=ducnha1554@gmail.com
-heroku config:set SMTP_PASS=ipgm zrua kctv gfea
+heroku config:set SMTP_PASS=your_smtp_app_password
 
 # SMS (Twilio)
-heroku config:set TWILIO_ACCOUNT_SID=ACb039ee1db67a3df5e8affb406f754e74
-heroku config:set TWILIO_AUTH_TOKEN=12867aa016ca57a83ca8bd2191b5839e
-heroku config:set TWILIO_PHONE_NUMBER=+18165726509
+heroku config:set TWILIO_ACCOUNT_SID=your_twilio_account_sid
+heroku config:set TWILIO_AUTH_TOKEN=your_twilio_auth_token
+heroku config:set TWILIO_PHONE_NUMBER=+1234567890
 
 # Server
 heroku config:set ENABLE_TUNNEL=false

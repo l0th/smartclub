@@ -3,7 +3,7 @@
 ## 🔴 Vấn Đề Phát Hiện
 
 ### Credentials Hardcoded (CRITICAL)
-1. **Database Password**: `cyp1zsduoqiomlm9ldz9` 
+1. **Database Password**: `your_database_password` (example) 
 2. **Gmail Account**: `ducnha1554@gmail.com` + App Password
 3. **Twilio Credentials**: Account SID + Auth Token
 4. **VNPay Secrets**: TMN Code + Hash Secret

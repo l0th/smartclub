@@ -7,7 +7,7 @@
 ```javascript
 host: process.env.DB_HOST || '103.97.126.78',
 user: process.env.DB_USER || 'eproject_2',
-password: process.env.DB_PASSWORD || 'cyp1zsduoqiomlm9ldz9',  // ⚠️ EXPOSED
+password: process.env.DB_PASSWORD || 'your_database_password',  // ⚠️ EXPOSED (example)
 database: process.env.DB_NAME || 'eproject_2',
 ```
 
@@ -20,7 +20,7 @@ database: process.env.DB_NAME || 'eproject_2',
 **File:** `backend/services/emailService.js`
 ```javascript
 DEFAULT_SMTP_USER = 'ducnha1554@gmail.com',  // ⚠️ EXPOSED
-DEFAULT_SMTP_PASS = 'ipgm zrua kctv gfea',     // ⚠️ EXPOSED (App Password)
+DEFAULT_SMTP_PASS = 'your_smtp_app_password',     // ⚠️ EXPOSED (example)
 ```
 
 **Risk Level:** 🔴 **CRITICAL**
@@ -31,9 +31,9 @@ DEFAULT_SMTP_PASS = 'ipgm zrua kctv gfea',     // ⚠️ EXPOSED (App Password)
 ### 3. Twilio Credentials
 **File:** `backend/services/smsService.js`
 ```javascript
-DEFAULT_ACCOUNT_SID = 'ACb039ee1db67a3df5e8affb406f754e74',  // ⚠️ EXPOSED
-DEFAULT_AUTH_TOKEN = '12867aa016ca57a83ca8bd2191b5839e',      // ⚠️ EXPOSED
-DEFAULT_TWILIO_PHONE = '+18165726509',
+DEFAULT_ACCOUNT_SID = 'your_twilio_account_sid',  // ⚠️ EXPOSED (example)
+DEFAULT_AUTH_TOKEN = 'your_twilio_auth_token',      // ⚠️ EXPOSED (example)
+DEFAULT_TWILIO_PHONE = '+1234567890',
 ```
 
 **Risk Level:** 🔴 **CRITICAL**
