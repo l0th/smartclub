@@ -5,6 +5,7 @@ const path = require('path');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
+// Routes
 const authRoutes = require('./routes/authRoutes');
 const memberRoutes = require('./routes/memberRoutes');
 const historyRoutes = require('./routes/historyRoutes');
@@ -14,6 +15,8 @@ const forgotCardRoutes = require('./routes/forgotCardRoutes');
 const rewardRoutes = require('./routes/rewardRoutes');
 const passwordResetRoutes = require('./routes/passwordResetRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+
+// Services
 const chatService = require('./services/chatService');
 
 const app = express();
@@ -28,10 +31,16 @@ const io = new Server(httpServer, {
 const PORT = process.env.PORT || 8080;
 const ENABLE_TUNNEL = process.env.ENABLE_TUNNEL !== 'false';
 
+/* =====================
+   MIDDLEWARE
+===================== */
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/* =====================
+   API ROUTES
+===================== */
 app.use('/api/auth', authRoutes);
 app.use('/api/auth/password-reset', passwordResetRoutes);
 app.use('/api/member', memberRoutes);
@@ -42,38 +51,54 @@ app.use('/api/forgot-card', forgotCardRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/payment', paymentRoutes);
 
+/* =====================
+   HEALTH CHECK
+===================== */
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'SmartClub API is running' });
+  res.json({
+    status: 'ok',
+    message: 'SmartClub API is running'
+  });
 });
 
-const staticFiles = express.static(path.join(__dirname, '..'));
-app.use((req, res, next) => {
-  if (req.path.startsWith('/api/')) {
-    return next();
-  }
-  staticFiles(req, res, next);
+/* =====================
+   STATIC UI (QUAN TRỌNG NHẤT)
+===================== */
+/**
+ * BẮT BUỘC cấu trúc:
+ * backend/
+ * ├─ public/
+ * │  ├─ index.html
+ * │  ├─ css/
+ * │  └─ js/
+ */
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Route root → index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+/* =====================
+   SOCKET.IO
+===================== */
 const userSockets = {};
 
 io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
+  console.log('🔌 Client connected:', socket.id);
 
-  socket.on('identify', async (data) => {
-    const username = data.username;
+  socket.on('identify', (data) => {
+    const username = data?.username;
     if (username) {
       userSockets[username] = socket.id;
-      console.log(`User ${username} registered with socket ID ${socket.id}`);
+      console.log(`👤 User ${username} registered with socket ${socket.id}`);
     }
   });
 
   socket.on('private_message', async (data) => {
     try {
       const { from, to, message, fileData, fileName, fileType } = data;
-
-      if (!from || !to || (!message && !fileData)) {
-        return;
-      }
+      if (!from || !to || (!message && !fileData)) return;
 
       let filePath = null;
       if (fileData && fileName) {
@@ -82,7 +107,14 @@ io.on('connection', (socket) => {
         filePath = await fileService.saveChatFile(fileBuffer, fileName);
       }
 
-      await chatService.saveMessage(from, to, message || '', filePath, fileName, fileType);
+      await chatService.saveMessage(
+        from,
+        to,
+        message || '',
+        filePath,
+        fileName,
+        fileType
+      );
 
       const targetSocketId = userSockets[to];
       if (targetSocketId) {
@@ -99,13 +131,13 @@ io.on('connection', (socket) => {
 
       socket.emit('message_sent', { success: true });
     } catch (error) {
-      console.error('Private message error:', error);
+      console.error('❌ Private message error:', error);
       socket.emit('message_error', { error: 'Failed to send message' });
     }
   });
 
   socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
+    console.log('❌ Client disconnected:', socket.id);
     for (const [username, socketId] of Object.entries(userSockets)) {
       if (socketId === socket.id) {
         delete userSockets[username];
@@ -115,10 +147,13 @@ io.on('connection', (socket) => {
   });
 });
 
+/* =====================
+   START SERVER (QUAN TRỌNG)
+===================== */
 httpServer.listen(PORT, '0.0.0.0', async () => {
   console.log(`✅ REST API server running on port ${PORT}`);
   console.log(`✅ Socket.IO server integrated on same port`);
-  
+
   if (ENABLE_TUNNEL && !process.env.VNPAY_RETURN_URL) {
     try {
       const tunnelService = require('./services/tunnelService');
@@ -130,7 +165,6 @@ httpServer.listen(PORT, '0.0.0.0', async () => {
       console.log(`✅ VNPay tunnel established: ${tunnelUrl}`);
       console.log(`   Return URL: ${tunnelUrl}/payment-callback.html`);
       console.log(`   IPN URL: ${tunnelUrl}/api/payment/vnpay/ipn`);
-      console.log(`   Server is ready to accept VNPay payments`);
     } catch (error) {
       console.error('❌ Failed to start tunnel:', error.message);
     }
@@ -139,6 +173,9 @@ httpServer.listen(PORT, '0.0.0.0', async () => {
   }
 });
 
+/* =====================
+   GRACEFUL SHUTDOWN
+===================== */
 process.on('SIGINT', async () => {
   console.log('\n🛑 Shutting down server...');
   const tunnelService = require('./services/tunnelService');
@@ -152,4 +189,3 @@ process.on('SIGTERM', async () => {
   await tunnelService.stopTunnel();
   process.exit(0);
 });
-
