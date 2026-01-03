@@ -54,11 +54,17 @@ async function makeRequest(method, endpoint, data = null, requiresAuth = false) 
     } else {
       const text = await response.text();
       if (response.status === 404) {
+<<<<<<< HEAD
         const msg = window.i18n ? window.i18n.t('api.endpoint_not_found') : 'Không tìm thấy API endpoint. Vui lòng kiểm tra server đã chạy và routes đã được đăng ký.';
         throw new Error(msg);
       }
       const msg = window.i18n ? window.i18n.t('api.non_json_response') : 'Server trả về phản hồi không phải JSON';
       throw new Error(`${msg}: ${text.substring(0, 100)}`);
+=======
+        throw new Error(`API endpoint not found: ${endpoint}. Please check if the server is running and routes are registered.`);
+      }
+      throw new Error(`Server returned non-JSON response: ${text.substring(0, 100)}`);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     }
 
     if (!response.ok) {
@@ -69,19 +75,30 @@ async function makeRequest(method, endpoint, data = null, requiresAuth = false) 
         if (window.location.pathname !== '/index.html' && !window.location.pathname.endsWith('index.html')) {
           window.location.href = 'index.html';
         }
+<<<<<<< HEAD
         const msg = window.i18n ? window.i18n.t('api.session_expired') : 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.';
         throw new Error(msg);
       }
       
       const msg = window.i18n ? window.i18n.t('api.http_error', { status: response.status }) : `Lỗi HTTP! Mã trạng thái: ${response.status}`;
       throw new Error(result.error || msg);
+=======
+        throw new Error('Session expired. Please login again.');
+      }
+      
+      throw new Error(result.error || `HTTP error! status: ${response.status}`);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     }
 
     return result;
   } catch (error) {
     if (error.message.includes('Failed to fetch')) {
+<<<<<<< HEAD
       const msg = window.i18n ? window.i18n.t('api.connection_failed') : 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối của bạn.';
       throw new Error(msg);
+=======
+      throw new Error('Cannot connect to server. Please check your connection.');
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     }
     throw error;
   }
@@ -102,8 +119,12 @@ const api = {
     try {
       await makeRequest('POST', '/auth/logout', null, true);
     } catch (error) {
+<<<<<<< HEAD
       const msg = window.i18n ? window.i18n.t('error.logout') : 'Lỗi đăng xuất';
       console.error(msg + ':', error);
+=======
+      console.error('Logout error:', error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     } finally {
       removeToken();
     }

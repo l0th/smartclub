@@ -163,10 +163,15 @@ async function copyPasscode() {
       btn.style.background = '';
     }, 2000);
   } catch (err) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.copy_failed') : 'Sao chép thất bại';
     console.error(msg + ':', err);
     const alertMsg = window.i18n ? window.i18n.t('message.cannot_copy', { text: passcode }) : 'Không thể sao chép. Vui lòng sao chép thủ công: ' + passcode;
     alert(alertMsg);
+=======
+    console.error('Failed to copy:', err);
+    alert('Không thể sao chép. Vui lòng sao chép thủ công: ' + passcode);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
   }
 }
 

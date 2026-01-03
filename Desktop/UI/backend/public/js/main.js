@@ -181,8 +181,12 @@ async function loadMemberPage() {
           return;
         }
       } catch (error) {
+<<<<<<< HEAD
         const msg = window.i18n ? window.i18n.t('error.load_user_failed') : 'Không thể tải thông tin người dùng';
         console.error(msg + ':', error);
+=======
+        console.error("Failed to get user:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
         window.location.href = "index.html";
         return;
       }
@@ -219,8 +223,12 @@ async function loadMemberPage() {
         card.value.cardCode || "N/A";
     } else {
       if (card.status === "rejected") {
+<<<<<<< HEAD
         const msg = window.i18n ? window.i18n.t('error.card_info') : 'Lỗi thông tin thẻ';
         console.warn(msg + ':', card.reason);
+=======
+        console.warn("Card info error:", card.reason);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
       }
       document.getElementById("cardId").textContent = "N/A";
     }
@@ -234,8 +242,12 @@ async function loadMemberPage() {
         formatDate(packageInfo.value.endDate) || "N/A";
     } else {
       if (packageInfo.status === "rejected") {
+<<<<<<< HEAD
         const msg = window.i18n ? window.i18n.t('error.package_info') : 'Lỗi thông tin gói dịch vụ';
         console.warn(msg + ':', packageInfo.reason);
+=======
+        console.warn("Package info error:", packageInfo.reason);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
       }
       document.getElementById("plan").textContent = "N/A";
       document.getElementById("start").textContent = "N/A";
@@ -252,8 +264,12 @@ async function loadMemberPage() {
         : history.value.data.length;
       displayHistory(history.value.data, total);
     } else if (history.status === "rejected") {
+<<<<<<< HEAD
       const msg = window.i18n ? window.i18n.t('error.history') : 'Lỗi lịch sử';
       console.warn(msg + ':', history.reason);
+=======
+      console.warn("History error:", history.reason);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
       showHistoryError();
     }
 
@@ -271,8 +287,12 @@ async function loadMemberPage() {
     await loadChatHistory();
     await loadRewards();
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.load_member_page') : 'Lỗi tải trang thành viên';
     console.error(msg + ':', error);
+=======
+    console.error("Load member page error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     showError("Không thể tải dữ liệu. Vui lòng thử lại!");
   }
 }
@@ -309,6 +329,7 @@ async function loadPlans() {
         })
         .join("");
     }
+<<<<<<< HEAD
     
     // Thêm event listener cho payment select
     const paymentSelect = document.getElementById("paymentSelect");
@@ -329,6 +350,10 @@ async function loadPlans() {
   } catch (error) {
     const msg = window.i18n ? window.i18n.t('error.load_plans') : 'Lỗi tải danh sách gói dịch vụ';
     console.error(msg + ':', error);
+=======
+  } catch (error) {
+    console.error("Load plans error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
   }
 }
 
@@ -349,6 +374,7 @@ async function confirmRenew() {
     return;
   }
 
+<<<<<<< HEAD
   // Kiểm tra các phương thức thanh toán đang phát triển
   const underDevelopmentMethods = ["Chuyển khoản ngân hàng", "Ví điện tử"];
   if (underDevelopmentMethods.includes(paymentMethod)) {
@@ -357,6 +383,8 @@ async function confirmRenew() {
     return;
   }
 
+=======
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
   if (btn) {
     btn.disabled = true;
     btn.textContent = "Đang xử lý...";
@@ -427,8 +455,12 @@ async function initSocket() {
     const userKey = window.SMARTCLUB_USER_KEY || "smartclub_user";
     const user = JSON.parse(localStorage.getItem(userKey));
     if (!user || !user.username) {
+<<<<<<< HEAD
       const msg = window.i18n ? window.i18n.t('error.no_username') : 'Không tìm thấy tên người dùng';
       console.error(msg);
+=======
+      console.error("No username found");
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
       return;
     }
 
@@ -467,6 +499,7 @@ async function initSocket() {
     });
 
     socket.on("message_sent", () => {
+<<<<<<< HEAD
       const msg = window.i18n ? window.i18n.t('success.message_sent') : 'Tin nhắn đã được gửi thành công';
       console.log(msg);
     });
@@ -474,6 +507,13 @@ async function initSocket() {
     socket.on("message_error", (error) => {
       const msg = window.i18n ? window.i18n.t('error.message') : 'Lỗi tin nhắn';
       console.error(msg + ':', error);
+=======
+      console.log("Message sent successfully");
+    });
+
+    socket.on("message_error", (error) => {
+      console.error("Message error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
       showError("Không thể gửi tin nhắn. Vui lòng thử lại!");
     });
 
@@ -481,8 +521,12 @@ async function initSocket() {
       console.log("Socket.IO disconnected");
     });
   } catch (err) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.socket_connection') : 'Lỗi kết nối Socket.IO';
     console.error("❌ " + msg + ":", err);
+=======
+    console.error("❌ Socket.IO connection error:", err);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
   }
 }
 
@@ -537,8 +581,12 @@ async function loadChatHistory() {
 
     chatEmpty.style.display = "none";
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.load_chat_history') : 'Lỗi tải lịch sử chat';
     console.error(msg + ':', error);
+=======
+    console.error("Load chat history error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     showError("Không thể tải lịch sử chat");
   } finally {
     chatLoading.style.display = "none";
@@ -603,8 +651,12 @@ async function sendMessage() {
     document.getElementById("selectedFileName").style.display = "none";
     document.getElementById("fileInput").value = "";
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.send_message') : 'Lỗi gửi tin nhắn';
     console.error(msg + ':', error);
+=======
+    console.error("Send message error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     showError("Không thể gửi tin nhắn!");
   } finally {
     btn.disabled = false;
@@ -703,8 +755,12 @@ async function getReceptionistUsername() {
   try {
     receptionistUsername = await api.getReceptionistUsername();
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.get_receptionist') : 'Lỗi lấy thông tin lễ tân';
     console.error(msg + ':', error);
+=======
+    console.error("Error getting receptionist username:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     receptionistUsername = "receptionist";
   }
 }
@@ -797,8 +853,12 @@ async function loadMoreHistory() {
       showHistoryError();
     }
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.load_more_history') : 'Lỗi tải thêm lịch sử';
     console.error(msg + ':', error);
+=======
+    console.error("Load more history error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     showHistoryError();
   } finally {
     loadMoreBtn.disabled = false;
@@ -905,8 +965,12 @@ async function loadForgotCardTab() {
       if (empty) empty.style.display = "block";
     }
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.load_forgot_card') : 'Lỗi tải passcode quên thẻ';
     console.error(msg + ':', error);
+=======
+    console.error("Load forgot card passcode error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     if (empty) empty.style.display = "block";
   } finally {
     if (loading) loading.style.display = "none";
@@ -932,8 +996,12 @@ function generateQRCode(passcode) {
   }
 
   if (typeof QRCode === "undefined") {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.qrcode_not_loaded') : 'Thư viện QRCode chưa được tải, đang thử tải...';
     console.warn(msg);
+=======
+    console.warn("QRCode library not loaded, attempting to load...");
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     loadQRCodeLibrary()
       .then(() => {
         generateQRCode(passcode);
@@ -957,8 +1025,12 @@ function generateQRCode(passcode) {
       correctLevel: 1,
     });
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.qrcode_generation') : 'Lỗi tạo QR code';
     console.error(msg + ':', error);
+=======
+    console.error("QR code generation exception:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     qrContainer.innerHTML =
       '<p style="color: red; font-size: 12px;">Lỗi tạo QR code</p>';
   }
@@ -1167,10 +1239,15 @@ async function copyForgotCardPasscode() {
       }, 2000);
     }
   } catch (err) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.copy_failed') : 'Sao chép thất bại';
     console.error(msg + ':', err);
     const alertMsg = window.i18n ? window.i18n.t('message.cannot_copy', { text: passcode }) : "Không thể sao chép. Vui lòng sao chép thủ công: " + passcode;
     alert(alertMsg);
+=======
+    console.error("Failed to copy:", err);
+    alert("Không thể sao chép. Vui lòng sao chép thủ công: " + passcode);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
   }
 }
 
@@ -1182,8 +1259,12 @@ async function loadMemberPoints() {
       pointsElement.textContent = points || 0;
     }
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.load_points') : 'Lỗi tải điểm tích lũy';
     console.error(msg + ':', error);
+=======
+    console.error("Load member points error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
   }
 }
 
@@ -1245,8 +1326,12 @@ async function loadRewards() {
     html += "</div>";
     rewardsContainer.innerHTML = html;
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.load_rewards') : 'Lỗi tải danh sách quà';
     console.error(msg + ':', error);
+=======
+    console.error("Load rewards error:", error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     const rewardsContainer = document.getElementById("rewardsContainer");
     if (rewardsContainer) {
       rewardsContainer.innerHTML =
@@ -1269,6 +1354,7 @@ async function redeemReward(rewardId) {
     const result = await api.redeemReward(rewardId);
 
     if (result.success) {
+<<<<<<< HEAD
       const successMsg = window.i18n ? window.i18n.t('success.redeem_success') : "Đổi quà thành công!";
       alert(result.message || successMsg);
       await loadMemberPoints();
@@ -1276,14 +1362,26 @@ async function redeemReward(rewardId) {
     } else {
       const failMsg = window.i18n ? window.i18n.t('message.redeem_failed') : "Đổi quà thất bại";
       alert(result.error || failMsg);
+=======
+      alert(result.message || "Đổi quà thành công!");
+      await loadMemberPoints();
+      await loadRewards();
+    } else {
+      alert(result.error || "Đổi quà thất bại");
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
       btn.disabled = false;
       btn.textContent = originalText;
     }
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.redeem_reward') : 'Lỗi đổi quà';
     console.error(msg + ':', error);
     const alertMsg = window.i18n ? window.i18n.t('message.redeem_error') : "Lỗi khi đổi quà. Vui lòng thử lại!";
     alert(error.message || alertMsg);
+=======
+    console.error("Redeem reward error:", error);
+    alert(error.message || "Lỗi khi đổi quà. Vui lòng thử lại!");
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
     btn.disabled = false;
     btn.textContent = originalText;
   }
@@ -1329,8 +1427,12 @@ async function generateVnpayUrl(paymentId, amount, planName) {
       }
     }
   } catch (error) {
+<<<<<<< HEAD
     const msg = window.i18n ? window.i18n.t('error.vnpay_config') : 'Không thể lấy cấu hình VNPay, sử dụng mặc định';
     console.warn(msg + ':', error);
+=======
+    console.warn('Failed to get VNPay config, using defaults:', error);
+>>>>>>> 3f7cc1bf2d306e49363b5fbf1bc1e3565f9e3960
   }
 
   const vnp_HashSecret = "ZKUNPZCP7S0FPKZRLF30ZA7WA4CZ15UP";
