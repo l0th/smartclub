@@ -100,20 +100,22 @@ io.on('connection', (socket) => {
       const { from, to, message, fileData, fileName, fileType } = data;
       if (!from || !to || (!message && !fileData)) return;
 
-      let filePath = null;
+      let fileBuffer = null;
+      let fileDataUrl = null;
       if (fileData && fileName) {
-        const fileService = require('./services/fileService');
-        const fileBuffer = Buffer.from(fileData, 'base64');
-        filePath = await fileService.saveChatFile(fileBuffer, fileName);
+        fileBuffer = Buffer.from(fileData, 'base64');
+        const mimeType = fileType || 'application/octet-stream';
+        fileDataUrl = `data:${mimeType};base64,${fileData}`;
       }
 
       await chatService.saveMessage(
         from,
         to,
         message || '',
-        filePath,
+        fileBuffer,
         fileName,
-        fileType
+        fileType,
+        null
       );
 
       const targetSocketId = userSockets[to];
@@ -122,7 +124,7 @@ io.on('connection', (socket) => {
           from,
           to,
           message,
-          filePath,
+          fileData: fileDataUrl,
           fileName,
           fileType,
           timestamp: new Date().toISOString()
