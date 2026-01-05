@@ -17,6 +17,7 @@ async function getChatHistory(userId, limit = 50) {
         ch.receiver,
         ch.message,
         ch.file_path,
+        ch.file_data,
         ch.file_name,
         ch.file_type,
         ch.file_size,
@@ -33,7 +34,17 @@ async function getChatHistory(userId, limit = 50) {
 
     const results = await query(sql, params);
     console.log('getChatHistory: Found', results.length, 'messages');
-    return results;
+    
+    const processedResults = results.map(msg => {
+      if (msg.file_data && Buffer.isBuffer(msg.file_data)) {
+        const base64 = msg.file_data.toString('base64');
+        const mimeType = msg.file_type || 'image/png';
+        msg.file_data = `data:${mimeType};base64,${base64}`;
+      }
+      return msg;
+    });
+    
+    return processedResults;
   } catch (error) {
     console.error('getChatHistory error:', error);
     console.error('Error details:', error.message);
@@ -42,14 +53,14 @@ async function getChatHistory(userId, limit = 50) {
   }
 }
 
-async function saveMessage(sender, receiver, message, filePath = null, fileName = null, fileType = null) {
+async function saveMessage(sender, receiver, message, fileData = null, fileName = null, fileType = null, filePath = null) {
   try {
     const sql = `
-      INSERT INTO chat_history (sender, receiver, message, file_path, file_name, file_type, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, NOW())
+      INSERT INTO chat_history (sender, receiver, message, file_data, file_path, file_name, file_type, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
     `;
 
-    await query(sql, [sender, receiver, message, filePath, fileName, fileType]);
+    await query(sql, [sender, receiver, message, fileData, filePath, fileName, fileType]);
     return true;
   } catch (error) {
     console.error('saveMessage error:', error);
